@@ -31,7 +31,8 @@
 
   {#await test then value}
     {console.log(value)}
-    <p>boo {value[0].amount}</p>
+    <p class="text-blue-700">boo {value[0].amount}</p>
+    <button class="btn">Boo</button>
   {/await}
 
 </main>
