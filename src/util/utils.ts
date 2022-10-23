@@ -4,3 +4,9 @@ export function laceToAdaString(lace: string) {
     .toString()
     .replace(/\B(?=(\d{3})+(?!\d))/g, ",")} ₳DA`;
 }
+
+export function shortenStakeAddr(addr: string) {
+  let start = addr.substring(0, 9);
+  let end = addr.substring(addr.length - 4, addr.length);
+  return start + "..." + end;
+}

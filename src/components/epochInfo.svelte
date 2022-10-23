@@ -25,7 +25,7 @@
 </script>
 
 <div id="epoch">
-  <div class="card shadow-xl blend p-4 m-4 mx-auto max-w-2xl">
+  <div class="card shadow-xl blend1 p-4 m-4 mx-auto max-w-2xl">
       {#await epoch}
         <p class="text text-xl text-center p-2">Loading current epoch...</p>
         <progress class="progress mx-auto"/>
@@ -63,16 +63,16 @@
 </div>
 
 <style>
-.blend {
+.blend1 {
     background: linear-gradient(-45deg, #cf52ee,  #23a6d5);
-    background-size: 400% 400%;
-    animation: gradient 4s ease infinite;
+    background-size: 200% 100%;
+    animation: gradient 6s ease infinite;
 }
 
 .blend2 {
   background: linear-gradient(-45deg,  #23a6d5,#cf52ee);
-  background-size: 400% 400%;
-  animation: gradient 4s ease infinite;
+  background-size: 200% 100%;
+  animation: gradient 6s ease infinite;
 }
 
 @keyframes gradient {
