@@ -5,7 +5,7 @@
   import Ada9000Fire from "./ada9000.svelte"
 </script>
 
-<div>
+<div class="max-w-2xl mx-auto">
   <Ada9000Fire/>
   <div class="mx-auto content-center grid gap-2 m-2">
     {#await pool}
@@ -22,18 +22,3 @@
     {/await}
   </div>
 </div>
-
-<!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-  <div class="card shadow-lg p-2 bg-primary">
-      {#await pool}
-        <p  class="text text-4xl self-center font-bold">loading pool</p>
-        {:then pool}
-        <p class="text text-4xl self-center font-bold">3: {pool.meta_json.ticker}</p>
-      {/await}
-  </div>
-
-  <div class="card shadow-lg p-2 bg-secondary">
-    <h1>Updates</h1>
-    b
-  </div>
-</div> -->
