@@ -3,13 +3,15 @@ import type { Delegator, PoolInfo, Tip } from "../types/koios";
 const ApiUrl = "https://api.koios.rest/api/v0";
 const PoolBech32 = "pool1fu6ppur5uumrpydpeswzrvfg4epr68xw39aar9rcu56tk5ukat3";
 
-export async function getTip(): Promise<Tip[]> {
+export async function getTip(): Promise<Tip> {
   const res = await fetch(`${ApiUrl}/tip`, {
     headers: {
       "Content-Type": "application/json",
     },
   }).then((res) => {
-    return res.json();
+    return res.json().then((x) => {
+      return x[0];
+    });
   });
 
   return res;
@@ -17,7 +19,7 @@ export async function getTip(): Promise<Tip[]> {
 
 export async function getPool(
   poolBech32: string = PoolBech32
-): Promise<PoolInfo[]> {
+): Promise<PoolInfo> {
   const res = await fetch(`${ApiUrl}/pool_info`, {
     method: "post",
     headers: {
@@ -27,7 +29,9 @@ export async function getPool(
       _pool_bech32_ids: [poolBech32],
     }),
   }).then((res) => {
-    return res.json();
+    return res.json().then((x) => {
+      return x[0];
+    });
   });
 
   return res;

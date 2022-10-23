@@ -1,0 +1,20 @@
+{
+  "info": {
+    "url_png_icon_64x64": "https://ada9000.io/logo40kb.png",
+    "url_png_logo": "https://ada9000.io/logo50kb.png",
+    "logo": "https://ada9000.io/ada9000fire.svg",
+    "social": {
+      "twitter_handle": "ada9000_",
+      "github_handle": "ada9000"
+    }
+  },
+  "company": {
+    "name": "ada9000"
+  },
+  "about": {
+    "server": "Arm based hardware at home, combined with cloud servers to provide reliable always-online pool infrastructure."
+  },
+  "my-pool-ids": {
+    "0": "4f3410f074e7363091a1cc1c21b128ae423d1cce897bd19478e534bb"
+  }
+}
