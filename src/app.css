@@ -21,6 +21,14 @@ html {
   border-radius: 15px;
 }
 
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  font-feature-settings: unset;
+}
+
 /*
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
