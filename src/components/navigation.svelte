@@ -8,7 +8,7 @@
     </a>
   </div>
   <div class="p-1">
-    <button class="btn" on:click={()=>{console.log("boo")}}>Join</button>
+    <button class="btn" on:click={()=>{console.log("boo")}}>🚧 Join</button>
   </div>
 </div>
 
