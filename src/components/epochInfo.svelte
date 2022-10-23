@@ -24,16 +24,16 @@
 </script>
 
 <div>
-  <div class="card shadow-xl blend p-4 m-4">
+  <div class="card shadow-xl blend p-4 m-4 mx-auto max-w-2xl">
       {#await epoch}
       <p class="text text-xl text-center">Loading current epoch...</p>
       <progress class="progress w-56 mx-auto"></progress>
       {:then epoch}
       <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
         <p class="text text-xl font-bold mx-auto my-auto">Epoch <span class="badge badge-lg">{epoch.epoch_no}</span></p>
-        <progress class="progress mx-auto my-auto" value={(epoch.end_time - epoch.start_time) - (epoch.end_time - currentTime)} max={(epoch.end_time - epoch.start_time)}/>
+        <progress class="progress mx-auto my-auto h-4" value={(epoch.end_time - epoch.start_time) - (epoch.end_time - currentTime)} max={(epoch.end_time - epoch.start_time)}/>
         <p/>
-        <p class="text text-lg text-center">{secondsToDhms((epoch.end_time - currentTime))}</p>
+        <p class="text text-xl text-center">ends in {secondsToDhms((epoch.end_time - currentTime))}</p>
       </div>
       {:catch error}
       <p class="text text-xl self-center font-bold">Sorry there was an issue...</p>
