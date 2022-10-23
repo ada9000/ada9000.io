@@ -4,6 +4,22 @@ export type Delegator = {
   active_epoch_no: number;
 };
 
+export type AccountAsset = {
+  stake_address: string;
+  assets: [
+    {
+      policy_id: string;
+      assets: [
+        {
+          asset_name: string;
+          asset_policy: string | null;
+          balance: string;
+        }
+      ];
+    }
+  ];
+};
+
 export type Tip = {
   hash: string;
   epoch_no: number;

@@ -5,6 +5,7 @@
   import Footer from "./components/footer.svelte"
   import EpochInfo from "./components/epochInfo.svelte";
   import Cheveron from "./assets/icons/cheveron.svelte"
+  import Delegators from "./components/delegators.svelte";
 </script>
 
 <Router>
@@ -18,6 +19,10 @@
         <a href="/#epoch" class="p-1 mx-auto"><Cheveron/></a>
         <div class="flex-grow"/>
         <EpochInfo/>
+        <div class="flex-grow"/>
+        <a href="/#delegators" class="p-1 mx-auto"><Cheveron/></a>
+        <div class="flex-grow"/>
+        <Delegators/>
       </Route>
 
       <Route path="blog">

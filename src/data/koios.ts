@@ -1,4 +1,7 @@
+import type { DelegatorInfo } from "src/types/types";
+import { writable } from "svelte/store";
 import type {
+  AccountAsset,
   Delegator,
   EpochInfo,
   PoolBlocks,
@@ -62,7 +65,7 @@ export async function getPool(
 
 export async function getDelegators(
   poolBech32: string = PoolBech32
-): Promise<Delegator[]> {
+): Promise<DelegatorInfo[]> {
   const res = await fetch(`${ApiUrl}/pool_delegators`, {
     method: "post",
     headers: {
@@ -75,5 +78,62 @@ export async function getDelegators(
     return res.json();
   });
 
-  return res;
+  const delegators: DelegatorInfo[] = [];
+  res.forEach((delegator) => {
+    delegators.push({
+      stake_address: delegator.stake_address,
+      lace: delegator.amount,
+      assetsLoading: true,
+    });
+  });
+
+  return delegators;
 }
+
+//@ts-no-check
+/*
+export function getDelegatorWithInfo() {
+  const { subscribe, update, set } = writable([]);
+  return {
+    subscribe,
+    set,
+    init: async () => {
+      const delegators = await getDelegators();
+      set(delegators);
+    },
+  };
+}
+*/
+
+/*
+export async function getDelegatorAssets(): Promise<DelegatorInfo[]> {
+  const delegators = await getDelegators();
+  const addresses: string[] = [];
+  delegators.forEach((delegator) => {
+    addresses.push(delegator.stake_address);
+  });
+
+  const res: AccountAsset[] = await fetch(`${ApiUrl}/account_assets`, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      _stake_addresses: [addresses],
+    }),
+  }).then((res) => {
+    return res.json();
+  });
+
+  // const updatedDelegators: DelegatorInfo[] = [];
+  // res.forEach((delegator) => {
+  //   updatedDelegators.push({
+  //     stake_address: delegator.stake_address,
+  //     lace: delegator.amount,
+  //     assetsLoading: false,
+  //   });
+  // });
+
+  //return updatedDelegators;
+}
+*/
