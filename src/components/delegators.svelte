@@ -20,7 +20,6 @@
         {/if}
         <p class="text text-center text-slate-800">{shortenStakeAddr(delegator.stake_address)}</p>
         <p class="text text-center text-slate-800">{laceToAdaString(delegator.lace.toString())}</p>
-        <p class="text text-center text-slate-800">{delegator.assetsLoading.toString()}</p>
       </div>
     {/if}
     {/each}
