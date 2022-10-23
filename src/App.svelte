@@ -3,6 +3,7 @@
   import Navigation from "./components/navigation.svelte";
   import Pool from "./components/poolInfo.svelte"
   import Footer from "./components/footer.svelte"
+  import EpochInfo from "./components/epochInfo.svelte";
 </script>
 
 <Router>
@@ -12,6 +13,7 @@
 
       <Route path="/">
         <Pool/>
+        <EpochInfo/>
       </Route>
 
       <Route path="blog">

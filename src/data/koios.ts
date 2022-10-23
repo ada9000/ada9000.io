@@ -1,20 +1,26 @@
-import type { Delegator, PoolInfo, Tip } from "../types/koios";
+import type { Delegator, EpochInfo, PoolInfo, Tip } from "../types/koios";
 
 const ApiUrl = "https://api.koios.rest/api/v0";
 const PoolBech32 = "pool1fu6ppur5uumrpydpeswzrvfg4epr68xw39aar9rcu56tk5ukat3";
 
-export async function getTip(): Promise<Tip> {
-  const res = await fetch(`${ApiUrl}/tip`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => {
+export async function getEpoch(): Promise<EpochInfo> {
+  const tip: Tip = await fetch(`${ApiUrl}/tip`, {}).then(async (res) => {
     return res.json().then((x) => {
       return x[0];
     });
   });
 
-  return res;
+  console.log(tip);
+
+  const epoch = await fetch(
+    `${ApiUrl}/epoch_info?_epoch_no=${tip.epoch_no}`,
+    {}
+  ).then(async (res) => {
+    return res.json().then((x) => {
+      return x[0];
+    });
+  });
+  return epoch;
 }
 
 export async function getPool(
