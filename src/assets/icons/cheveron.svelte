@@ -1,0 +1,1 @@
+<svg fill="none" stroke="#fedf6c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" shape-rendering="geometricPrecision" viewBox="0 0 24 24" cursor="pointer" height="24" width="24" style="color: white;"><path d="M6 9l6 6 6-6"></path></svg>

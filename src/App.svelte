@@ -4,6 +4,7 @@
   import Pool from "./components/poolInfo.svelte"
   import Footer from "./components/footer.svelte"
   import EpochInfo from "./components/epochInfo.svelte";
+  import Cheveron from "./assets/icons/cheveron.svelte"
 </script>
 
 <Router>
@@ -13,6 +14,9 @@
 
       <Route path="/">
         <Pool/>
+        <div class="flex-grow"/>
+        <a href="/#epoch" class="p-1 mx-auto"><Cheveron/></a>
+        <div class="flex-grow"/>
         <EpochInfo/>
       </Route>
 

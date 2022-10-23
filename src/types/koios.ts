@@ -28,6 +28,15 @@ export type EpochInfo = {
   avg_blk_reward: string | null;
 };
 
+export type PoolBlocks = {
+  epoch_no: number;
+  epoch_slot: number;
+  abs_slot: number;
+  block_height: number;
+  block_hash: string;
+  block_time: number;
+};
+
 export type Relay = {
   dns?: string;
   srv?: string;
