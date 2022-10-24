@@ -8,8 +8,8 @@
   (async () => {
     delegators = await getDelegators();
     console.log("boo");
-    delegators = await getDelegatorAssets(delegators);
-    delegators = delegators;
+    //delegators = await getDelegatorAssets(delegators); // TODO uncomment
+    //delegators = delegators;
   })();
 </script>
 
@@ -33,9 +33,9 @@
         <p class="text text-center text-slate-800">
           {laceToAdaString(delegator.lace.toString())}
         </p>
-        <p class="text text-center text-slate-800">
+        <!-- <p class="text text-center text-slate-800">
           {delegator.assetsLoading.toString()}
-        </p>
+        </p> -->
       </div>
     {/if}
   {/each}
