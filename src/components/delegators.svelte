@@ -3,39 +3,49 @@
   import { getDelegatorAssets, getDelegators } from "../data/koios";
   import cf from "../../public/cf.json";
   import type { DelegatorInfo } from "src/types/types";
+  import { handle_promise } from "svelte/internal";
+  import Adahandle from "../assets/icons/adahandle.svelte";
   let delegators: DelegatorInfo[] = [];
-  //let delegators = getDelegators();
   (async () => {
     delegators = await getDelegators();
     console.log("boo");
-    //delegators = await getDelegatorAssets(delegators); // TODO uncomment
-    //delegators = delegators;
+    delegators = await getDelegatorAssets(delegators);
+    delegators = delegators;
   })();
 </script>
 
-<div id="delegators">
+<div id="delegators" class="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
   {#each delegators.sort((a, b) => b.lace - a.lace) as delegator}
     {#if delegator.lace > 0}
-      <div class="card mx-auto blend p-2 max-w-sm mt-4">
+      <div class="card mx-auto p-2 mt-4 shadow-lg max-w-sm w-10/12 bg-base-300 ">
+        <!-- Show if foundation or pool wallet -->
         {#if cf.includes(delegator.stake_address)}
-          <p class="text text-center font-bold text-slate-800">
-            🐋 Cardano Foundation wallet
+          <p class="text text-center font-bold">
+            🐋 Cardano Foundation
           </p>
         {/if}
         {#if delegator.stake_address === "stake1u8ag3gtdgtuj6hud7km4z0u0pcqvfndtq9fcckjvvc6yjdswaksu2"}
-          <p class="text text-center font-bold text-slate-800">
-            🌚 Pool Wallet
+          <p class="text text-center font-bold">
+            OWNER
           </p>
         {/if}
-        <p class="text text-center text-slate-800">
-          {shortenStakeAddr(delegator.stake_address)}
+        
+        <!-- Show handle or shortened stake address -->
+        {#if delegator.handles && delegator.handles.length}
+        <p class="text text-center text-lg font-bold">
+          <span class="inline-block h-3.5"><Adahandle/></span>
+          {delegator.handles[0]}
         </p>
-        <p class="text text-center text-slate-800">
+        {:else}
+          <p class="text text-center text-lg font-bold text-primary">
+            {shortenStakeAddr(delegator.stake_address)}
+          </p>
+        {/if}
+        
+        <p class="text text-center">
           {laceToAdaString(delegator.lace.toString())}
         </p>
-        <!-- <p class="text text-center text-slate-800">
-          {delegator.assetsLoading.toString()}
-        </p> -->
+
       </div>
     {/if}
   {/each}
