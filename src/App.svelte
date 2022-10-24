@@ -15,9 +15,6 @@
 
       <Route path="/">
         <Pool/>
-        <div class="flex-grow"/>
-        <a href="/#epoch" class="p-1 mx-auto"><Cheveron/></a>
-        <div class="flex-grow"/>
         <EpochInfo/>
         <div class="flex-grow"/>
         <a href="/#delegators" class="p-1 mx-auto"><Cheveron/></a>

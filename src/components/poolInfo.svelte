@@ -3,6 +3,7 @@
   import {getPool} from "../data/koios"
   const pool = getPool();
   import Ada9000Fire from "./ada9000.svelte"
+  import Cheveron from "../assets/icons/cheveron.svelte";
 </script>
 
 <div id="pool" class="max-w-2xl mx-auto">
@@ -13,10 +14,25 @@
       <progress class="progress w-56 mx-auto"></progress>
     {:then pool}
       <p class="text text-4xl font-bold text-center">{pool.meta_json.ticker}</p>
-      <p class="text text-4xl font-bold text-center text-primary">{laceToAdaString(pool.live_stake)}</p>
-      <p class="text text-2xl font-bold text-center">🧙 {pool.live_delegators} delegators</p>
-      <p class="text text-2xl font-bold text-center">🔥 {pool.block_count} blocks</p>
-      <p class="text text-lg text-center">{pool.meta_json.description}</p>
+      <p class="text text-2xl font-bold text-center text-primary">{laceToAdaString(pool.live_stake)}</p>
+      <p class="text text-xl font-bold text-center">🧙 {pool.live_delegators} delegators</p>
+      <p class="text text-xl font-bold text-center">🔥 {pool.block_count} blocks</p>
+      <p class="text text-md text-center">{pool.meta_json.description}</p>
+
+      <a href="/#stats" class="p-1 mx-auto"><Cheveron/></a>
+
+      <div id="stats" class="grid sm:grid-cols-3 cols-1 p-2 gap-2">
+        <div class="grid grid-rows-2 mx-auto">
+          <p class="text text-xl font-bold mx-auto my-auto">Margin</p><span class="badge badge-lg">{(pool.margin * 100).toFixed(2)}%</span>
+        </div>
+        <div class="grid grid-rows-2 mx-auto">
+          <p class="text text-xl font-bold mx-auto my-auto">Fixed</p><span class="badge badge-lg">{laceToAdaString(pool.fixed_cost.toString())}</span>
+        </div>
+        <div class="grid grid-rows-2 mx-auto">
+          <p class="text text-xl font-bold mx-auto my-auto">Pledge</p><span class="badge badge-lg">{laceToAdaString(pool.pledge)}</span>
+        </div>
+      </div>
+
     {:catch error}
       <p class="text text-xl self-center font-bold">Sorry there was an issue...</p>
     {/await}
