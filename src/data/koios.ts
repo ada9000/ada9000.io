@@ -1,3 +1,4 @@
+import type Delegators from "src/components/delegators.svelte";
 import type { DelegatorInfo } from "src/types/types";
 import { writable } from "svelte/store";
 import type {
@@ -90,24 +91,11 @@ export async function getDelegators(
   return delegators;
 }
 
-/*
-export function getDelegatorWithInfo() {
-  const { subscribe, update, set } = writable([]);
-  return {
-    subscribe,
-    set,
-    init: async () => {
-      const delegators = await getDelegators();
-      set(delegators);
-    },
-  };
-}
-*/
-
 export async function getDelegatorAssets(
-  delegators:DelegatorInfo[]
+  delegators: DelegatorInfo[]
 ): Promise<DelegatorInfo[]> {
-  //const delegators = await getDelegators();
+  const updatedDelegators = JSON.parse(JSON.stringify(delegators));
+
   const addresses: string[] = [];
   delegators.forEach((delegator) => {
     addresses.push(delegator.stake_address);
@@ -125,15 +113,26 @@ export async function getDelegatorAssets(
     return res.json();
   });
 
-  // TODO update with new values
-  const updatedDelegators: DelegatorInfo[] = [];
-  res.forEach((delegator) => {
-    updatedDelegators.push({
-      stake_address: delegator.stake_address,
-      lace: 100,
-      assetsLoading: false,
+  res.forEach((account) => {
+    const idx = updatedDelegators.findIndex((d) => {
+      return d.stake_address === account.stake_address;
     });
-  });
+    // update assets
+    updatedDelegators[idx].assets = account.assets;
 
+    // handle handles ;)
+    let handles: string[] = [];
+    account.assets.forEach((a) => {
+      if (
+        a.policy_id ===
+        "f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a"
+      ) {
+        a.assets.forEach((handle) => {
+          handles.push(handle.asset_name_ascii);
+        });
+      }
+    });
+    updatedDelegators[idx].handles = handles;
+  });
   return updatedDelegators;
 }
