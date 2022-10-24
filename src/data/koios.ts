@@ -90,7 +90,6 @@ export async function getDelegators(
   return delegators;
 }
 
-//@ts-no-check
 /*
 export function getDelegatorWithInfo() {
   const { subscribe, update, set } = writable([]);
@@ -105,9 +104,10 @@ export function getDelegatorWithInfo() {
 }
 */
 
-/*
-export async function getDelegatorAssets(): Promise<DelegatorInfo[]> {
-  const delegators = await getDelegators();
+export async function getDelegatorAssets(
+  delegators:DelegatorInfo[]
+): Promise<DelegatorInfo[]> {
+  //const delegators = await getDelegators();
   const addresses: string[] = [];
   delegators.forEach((delegator) => {
     addresses.push(delegator.stake_address);
@@ -125,15 +125,15 @@ export async function getDelegatorAssets(): Promise<DelegatorInfo[]> {
     return res.json();
   });
 
-  // const updatedDelegators: DelegatorInfo[] = [];
-  // res.forEach((delegator) => {
-  //   updatedDelegators.push({
-  //     stake_address: delegator.stake_address,
-  //     lace: delegator.amount,
-  //     assetsLoading: false,
-  //   });
-  // });
+  // TODO update with new values
+  const updatedDelegators: DelegatorInfo[] = [];
+  res.forEach((delegator) => {
+    updatedDelegators.push({
+      stake_address: delegator.stake_address,
+      lace: 100,
+      assetsLoading: false,
+    });
+  });
 
-  //return updatedDelegators;
+  return updatedDelegators;
 }
-*/
