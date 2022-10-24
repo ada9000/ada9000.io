@@ -1,9 +1,11 @@
 <script lang="ts">
+  import type { PoolBlocks } from 'src/types/koios';
   import { onMount } from 'svelte';
   import {getPoolBlocks, getEpoch} from "../data/koios"
   let epoch = getEpoch();
-  let lastEpoch = 0;
   let blocks = getPoolBlocks();
+  let lastBlocks:PoolBlocks[] | undefined;
+  let initBlockLoadingDone = false;
   var currentTime = Math.floor(Date.now() / 1000)
 
   function secondsToDhms(seconds:number): string {
@@ -16,28 +18,33 @@
   }
 
 	onMount(async () => {
-		const interval = setInterval(async () => {
+    // update time every seconds + check for new epochs if required
+		const everySecond = setInterval(async () => {
 			currentTime = Math.floor(Date.now() / 1000);
       const e = await epoch;
       const secondsLeft = e.end_time - currentTime;
-      console.log(e)
-      console.log(secondsLeft)
       if(secondsLeft < 0){
+        console.log("boo")
         epoch = getEpoch();
         blocks = getPoolBlocks();
         epoch = epoch;
         blocks = blocks;
-        // wait 5 seconds before trying again to prevent multiple api calls
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        // wait 15 seconds before trying again to prevent multiple api calls
+        await new Promise(resolve => setTimeout(resolve, 15000));
       }    
 		}, 1000);
+    // check for new blocks every 2 min
+		const blockChecks = setInterval(async () => {
+      lastBlocks = await blocks;
+      blocks = getPoolBlocks();
+      blocks = blocks;
+		}, 1200000);
+    // cleanup
 		return () => {
-			clearInterval(interval);
+			clearInterval(everySecond);
+      clearInterval(blockChecks);
 		};
 	});
-
-
-
 </script>
 
 <div id="epoch">
@@ -59,9 +66,27 @@
 
   <div class="card shadow-xl blend2 p-4 m-4 mx-auto max-w-2xl">
   {#await blocks}
-    <p class="text text-xl text-center p-2">Looking for blocks...</p>
-    <progress class="progress mx-auto"/>
+
+    <!-- BLOCK DISPLAY -->
+    {#if lastBlocks}
+      <p class="text text-xl text-center font-bold">Epoch block status</p>
+      {#if lastBlocks.length > 0}
+        <p class="text text-lg text-center">{lastBlocks.length === 1 ? `Minted a block` : `Minted ${lastBlocks.length} blocks`}
+        {#each lastBlocks as block}
+          <a href={`https://cardanoscan.io/block/${block.block_height}`} target="_blank" rel="noopener noreferrer" class="link link-hover text-lg">🧊</a>
+        {/each}
+        </p>
+      {:else}
+        <p class="text text-lg text-center">No blocks yet this epoch 🫠</p>
+      {/if}
+    {:else}
+      <!-- SHOW LOADING -->
+      <p class="text text-xl text-center p-2">Looking for blocks...</p>
+      <progress class="progress mx-auto"/>
+    {/if}
+
   {:then blocks}
+    <!-- BLOCK DISPLAY -->
     <p class="text text-xl text-center font-bold">Epoch block status</p>
     {#if blocks && blocks.length}
       <p class="text text-lg text-center">{blocks.length === 1 ? `Minted a block` : `Minted ${blocks.length} blocks`}
