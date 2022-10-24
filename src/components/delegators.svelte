@@ -14,10 +14,10 @@
   })();
 </script>
 
-<div id="delegators" class="grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
+<div id="delegators" class="grid gap-x-4 gap-y-2 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
   {#each delegators.sort((a, b) => b.lace - a.lace) as delegator}
     {#if delegator.lace > 0}
-      <div class="card mx-auto p-2 mt-4 shadow-lg max-w-sm w-10/12 bg-base-300 ">
+      <div class="card mx-auto p-2 mt-4 shadow-lg max-w-sm bg-base-300 w-full">
         <!-- Show if foundation or pool wallet -->
         {#if cf.includes(delegator.stake_address)}
           <p class="text text-center font-bold">
@@ -33,8 +33,7 @@
         <!-- Show handle or shortened stake address -->
         {#if delegator.handles && delegator.handles.length}
         <p class="text text-center text-lg font-bold">
-          <span class="inline-block h-3.5"><Adahandle/></span>
-          {delegator.handles[0]}
+          <span class="inline-block h-4"><Adahandle/></span> {delegator.handles[0]}
         </p>
         {:else}
           <p class="text text-center text-lg font-bold text-primary">
