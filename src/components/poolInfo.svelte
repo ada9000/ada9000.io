@@ -21,15 +21,15 @@
 
       <a href="/#stats" class="p-1 mx-auto"><Cheveron/></a>
 
-      <div id="stats" class="grid sm:grid-cols-3 cols-1 p-2 gap-2">
-        <div class="grid grid-rows-2 mx-auto">
-          <p class="text text-xl font-bold mx-auto my-auto">Margin</p><span class="badge badge-lg">{(pool.margin * 100).toFixed(2)}%</span>
+      <div id="stats" class="grid sm:grid-cols-3 cols-1 p-2 gap-x-6 gap-y-2">
+        <div class="grid grid-rows-2 mx-auto gap-2">
+          <p class="text text-xl font-bold mx-auto my-auto">Margin</p><span class="badge badge-lg w-32">{(pool.margin * 100).toFixed(2)}%</span>
         </div>
-        <div class="grid grid-rows-2 mx-auto">
-          <p class="text text-xl font-bold mx-auto my-auto">Fixed</p><span class="badge badge-lg">{laceToAdaString(pool.fixed_cost.toString())}</span>
+        <div class="grid grid-rows-2 mx-auto gap-2">
+          <p class="text text-xl font-bold mx-auto my-auto">Fixed</p><span class="badge badge-lg w-32">{laceToAdaString(pool.fixed_cost.toString())}</span>
         </div>
-        <div class="grid grid-rows-2 mx-auto">
-          <p class="text text-xl font-bold mx-auto my-auto">Pledge</p><span class="badge badge-lg">{laceToAdaString(pool.pledge)}</span>
+        <div class="grid grid-rows-2 mx-auto gap-2">
+          <p class="text text-xl font-bold mx-auto my-auto">Pledge</p><span class="badge badge-lg w-32">{laceToAdaString(pool.pledge)}</span>
         </div>
       </div>
 
