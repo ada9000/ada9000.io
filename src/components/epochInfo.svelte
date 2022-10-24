@@ -1,8 +1,9 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import {getPoolBlocks, getEpoch} from "../data/koios"
-  const epoch = getEpoch();
-  const blocks = getPoolBlocks();
+  let epoch = getEpoch();
+  let lastEpoch = 0;
+  let blocks = getPoolBlocks();
   var currentTime = Math.floor(Date.now() / 1000)
 
   function secondsToDhms(seconds:number): string {
@@ -14,14 +15,29 @@
     return days > 0 ? `${(days > 1 ? `${days} days` : `${days} day`)} ${hours}:${mins}:${secs}` : `${hours}:${mins}:${secs}`
   }
 
-	onMount(() => {
-		const interval = setInterval(() => {
+	onMount(async () => {
+		const interval = setInterval(async () => {
 			currentTime = Math.floor(Date.now() / 1000);
+      const e = await epoch;
+      const secondsLeft = e.end_time - currentTime;
+      console.log(e)
+      console.log(secondsLeft)
+      if(secondsLeft < 0){
+        epoch = getEpoch();
+        blocks = getPoolBlocks();
+        epoch = epoch;
+        blocks = blocks;
+        // wait 5 seconds before trying again to prevent multiple api calls
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }    
 		}, 1000);
 		return () => {
 			clearInterval(interval);
 		};
 	});
+
+
+
 </script>
 
 <div id="epoch">
@@ -34,10 +50,10 @@
           <p class="text text-xl font-bold mx-auto my-auto">Epoch <span class="badge badge-lg">{epoch.epoch_no}</span></p>
           <progress class="progress mx-auto my-auto h-4" value={(epoch.end_time - epoch.start_time) - (epoch.end_time - currentTime)} max={(epoch.end_time - epoch.start_time)}/>
           <p/>
-          <p class="text text-xl text-center">ends in {secondsToDhms((epoch.end_time - currentTime))}</p>
+          <p class="text text-md text-center">Ends in {secondsToDhms((epoch.end_time - currentTime))}</p>
         </div>
       {:catch error}
-        <p class="text text-xl self-center font-bold">Issue fetching epoch data</p>
+        <p class="text text-md self-center font-bold">Issue fetching epoch data, try again on boundries...</p>
       {/await}
   </div>
 
