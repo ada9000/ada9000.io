@@ -5,7 +5,7 @@
   import Footer from "./lib/footer.svelte"
   import EpochInfo from "./lib/epochInfo/epochInfo.svelte";
   import Cheveron from "./assets/icons/cheveron.svelte"
-  import Delegators from "./lib/delegators.svelte";
+  import Delegators from "./lib/delegators/delegators.svelte";
 </script>
 
 <Router>
