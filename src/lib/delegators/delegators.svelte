@@ -47,6 +47,11 @@
         {/if}
       </button>
     </div>
+    {#if showHosky}
+    <p class="text-center text-md my-4">
+      <a href="https://app.tosidrop.io/" target="_blank" rel="noopener noreferrer" class="link link-hover">Free Hosky ☂️</a>
+    </p>
+    {/if}
   {/if}
   <div class="grid gap-x-4 gap-y-2 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
     {#each delegators as delegator}
