@@ -13,7 +13,15 @@
     {#if blocks && blocks.length}
       <p class="text text-lg text-center">{blocks.length === 1 ? `Minted a block` : `Minted ${blocks.length} blocks`}
       {#each blocks as block}
-        <a href={`https://cardanoscan.io/block/${block.block_height}`} target="_blank" rel="noopener noreferrer" class="link link-hover text-lg">🧊</a>
+        <a href={`https://cardanoscan.io/block/${block.block_height}`} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="link link-hover text-lg tooltip"
+          data-tip={`Slot ${block.abs_slot}`}
+
+        >
+          🧊
+        </a>
       {/each}
       </p>
     {:else}
