@@ -25,10 +25,7 @@ export async function getTip(): Promise<Tip> {
 export async function getEpoch(): Promise<EpochInfo> {
   const tip = await getTip();
   const epoch: EpochInfo = await fetch(
-    `${ApiUrl}/epoch_info?_epoch_no=${tip.epoch_no}`,
-    {
-      cache: "force-cache", // TODO remove
-    }
+    `${ApiUrl}/epoch_info?_epoch_no=${tip.epoch_no}`
   ).then(async (res) => {
     return res.json().then((x) => {
       return x[0];
@@ -40,10 +37,7 @@ export async function getEpoch(): Promise<EpochInfo> {
 export async function getPoolBlocks(): Promise<PoolBlocks[]> {
   const tip = await getTip();
   const blocks: PoolBlocks[] = await fetch(
-    `${ApiUrl}/pool_blocks?_epoch_no=${tip.epoch_no}&_pool_bech32=${PoolBech32}`,
-    {
-      cache: "force-cache", // TODO remove
-    }
+    `${ApiUrl}/pool_blocks?_epoch_no=${tip.epoch_no}&_pool_bech32=${PoolBech32}`
   ).then(async (res) => {
     return res.json();
   });
@@ -82,7 +76,6 @@ export async function getDelegators(
     body: JSON.stringify({
       _pool_bech32: poolBech32,
     }),
-    cache: "force-cache", // TODO remove
   }).then((res) => {
     return res.json();
   });
@@ -117,7 +110,6 @@ export async function getDelegatorAssets(
     body: JSON.stringify({
       _stake_addresses: [addresses],
     }),
-    cache: "force-cache", // TODO remove
   }).then((res) => {
     return res.json();
   });
