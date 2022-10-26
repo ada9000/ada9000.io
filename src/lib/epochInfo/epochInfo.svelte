@@ -26,7 +26,6 @@
       const e = await epoch;
       const secondsLeft = e.end_time - currentTime;
       if(secondsLeft < 0){
-        console.log("boo")
         epoch = getEpoch();
         blocks = getPoolBlocks();
         epoch = epoch;

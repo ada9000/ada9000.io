@@ -1,4 +1,4 @@
-import type Delegators from "src/components/delegators.svelte";
+import type Delegators from "src/lib/delegators/delegators.svelte";
 import type { DelegatorInfo } from "src/types/types";
 import { writable } from "svelte/store";
 import type {
@@ -25,7 +25,10 @@ export async function getTip(): Promise<Tip> {
 export async function getEpoch(): Promise<EpochInfo> {
   const tip = await getTip();
   const epoch: EpochInfo = await fetch(
-    `${ApiUrl}/epoch_info?_epoch_no=${tip.epoch_no}`
+    `${ApiUrl}/epoch_info?_epoch_no=${tip.epoch_no}`,
+    {
+      cache: "force-cache", // TODO remove
+    }
   ).then(async (res) => {
     return res.json().then((x) => {
       return x[0];
@@ -37,7 +40,10 @@ export async function getEpoch(): Promise<EpochInfo> {
 export async function getPoolBlocks(): Promise<PoolBlocks[]> {
   const tip = await getTip();
   const blocks: PoolBlocks[] = await fetch(
-    `${ApiUrl}/pool_blocks?_epoch_no=${tip.epoch_no}&_pool_bech32=${PoolBech32}`
+    `${ApiUrl}/pool_blocks?_epoch_no=${tip.epoch_no}&_pool_bech32=${PoolBech32}`,
+    {
+      cache: "force-cache", // TODO remove
+    }
   ).then(async (res) => {
     return res.json();
   });
@@ -55,6 +61,7 @@ export async function getPool(
     body: JSON.stringify({
       _pool_bech32_ids: [poolBech32],
     }),
+    cache: "force-cache",
   }).then((res) => {
     return res.json().then((x) => {
       return x[0];
@@ -75,6 +82,7 @@ export async function getDelegators(
     body: JSON.stringify({
       _pool_bech32: poolBech32,
     }),
+    cache: "force-cache", // TODO remove
   }).then((res) => {
     return res.json();
   });
@@ -109,6 +117,7 @@ export async function getDelegatorAssets(
     body: JSON.stringify({
       _stake_addresses: [addresses],
     }),
+    cache: "force-cache", // TODO remove
   }).then((res) => {
     return res.json();
   });
@@ -120,16 +129,21 @@ export async function getDelegatorAssets(
     // update assets
     updatedDelegators[idx].assets = account.assets;
 
+    const handlePolicy =
+      "f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a";
+    const hoskyPolicy =
+      "a0028f350aaabe0545fdcb56b039bfb08e4bb4d8c4d7c3c7d481c235";
+
     // handle handles ;)
     let handles: string[] = [];
     account.assets.forEach((a) => {
-      if (
-        a.policy_id ===
-        "f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a"
-      ) {
+      if (a.policy_id === handlePolicy) {
         a.assets.forEach((handle) => {
           handles.push(handle.asset_name_ascii);
         });
+      }
+      if (a.policy_id === hoskyPolicy) {
+        updatedDelegators[idx].hosky = a.assets[0].balance;
       }
     });
     updatedDelegators[idx].handles = handles;
