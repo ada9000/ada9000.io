@@ -1,11 +1,11 @@
 <script lang="ts">
   import { Router, Route } from "svelte-navigator";
-  import Navigation from "./components/navigation.svelte";
-  import Pool from "./components/poolInfo.svelte"
-  import Footer from "./components/footer.svelte"
-  import EpochInfo from "./components/epochInfo.svelte";
+  import Navigation from "./lib/navigation.svelte";
+  import Pool from "./lib/poolInfo.svelte"
+  import Footer from "./lib/footer.svelte"
+  import EpochInfo from "./lib/epochInfo/epochInfo.svelte";
   import Cheveron from "./assets/icons/cheveron.svelte"
-  import Delegators from "./components/delegators.svelte";
+  import Delegators from "./lib/delegators.svelte";
 </script>
 
 <Router>

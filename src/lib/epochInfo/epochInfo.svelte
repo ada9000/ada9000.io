@@ -1,7 +1,9 @@
 <script lang="ts">
   import type { PoolBlocks } from 'src/types/koios';
   import { onMount } from 'svelte';
-  import {getPoolBlocks, getEpoch} from "../data/koios"
+  import {getPoolBlocks, getEpoch} from "../../data/koios"
+  import EpochBlocks from './components/epochBlocks.svelte'
+
   let epoch = getEpoch();
   let blocks = getPoolBlocks();
   let lastBlocks:PoolBlocks[] | undefined;
@@ -64,42 +66,19 @@
       {/await}
   </div>
 
-  <div class="card shadow-xl blend2 p-4 m-4 mx-auto max-w-2xl">
-  {#await blocks}
-
-    <!-- BLOCK DISPLAY -->
+  <!-- BLOCK DISPLAY -->
+  <div id="epochBlocks" class="card shadow-xl blend2 p-4 m-4 mx-auto max-w-2xl">
+    {#await blocks}
     {#if lastBlocks}
-      <p class="text text-xl text-center font-bold">Epoch block status</p>
-      {#if lastBlocks.length > 0}
-        <p class="text text-lg text-center">{lastBlocks.length === 1 ? `Minted a block` : `Minted ${lastBlocks.length} blocks`}
-        {#each lastBlocks as block}
-          <a href={`https://cardanoscan.io/block/${block.block_height}`} target="_blank" rel="noopener noreferrer" class="link link-hover text-lg">🧊</a>
-        {/each}
-        </p>
-      {:else}
-        <p class="text text-lg text-center">No blocks yet this epoch 🫠</p>
-      {/if}
+      <EpochBlocks blocks={lastBlocks}/>
     {:else}
-      <!-- SHOW LOADING -->
-      <p class="text text-xl text-center p-2">Looking for blocks...</p>
-      <progress class="progress mx-auto"/>
+      <EpochBlocks blocks={blocks}/>
     {/if}
-
-  {:then blocks}
-    <!-- BLOCK DISPLAY -->
-    <p class="text text-xl text-center font-bold">Epoch block status</p>
-    {#if blocks && blocks.length}
-      <p class="text text-lg text-center">{blocks.length === 1 ? `Minted a block` : `Minted ${blocks.length} blocks`}
-      {#each blocks as block}
-        <a href={`https://cardanoscan.io/block/${block.block_height}`} target="_blank" rel="noopener noreferrer" class="link link-hover text-lg">🧊</a>
-      {/each}
-      </p>
-    {:else}
-        <p class="text text-lg text-center">No blocks yet this epoch 🫠</p>
-    {/if}  
-  {:catch error}
-    <p class="text text-xl self-center font-bold">Issue fetching block data</p>
-  {/await}
+    {:then blocks}
+      <EpochBlocks blocks={blocks}/>
+    {:catch}
+      <EpochBlocks blocks={blocks}/>
+    {/await}
   </div>
 </div>
 
