@@ -16,7 +16,7 @@
     loading = false;
     delegators = await getDelegatorAssets(delegators)
       .then((d)=>{return d.sort((a, b) => b.lace - a.lace)});
-    loadingAssets = false
+    loadingAssets = false;
   })();
 
   let showHosky = false;

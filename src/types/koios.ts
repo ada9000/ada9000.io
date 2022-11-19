@@ -6,19 +6,14 @@ export type Delegator = {
 
 export type AccountAsset = {
   stake_address: string;
-  assets: Asset[];
+  asset_list: Asset[];
 };
 
 export type Asset = {
   policy_id: string;
-  assets: [
-    {
-      asset_name: string;
-      asset_name_ascii?: string;
-      asset_policy: string | null;
-      balance: string;
-    }
-  ];
+  asset_name: string;
+  fingerprint: string | null;
+  quantity: string;
 };
 
 export type Tip = {
