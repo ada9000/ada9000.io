@@ -18,7 +18,6 @@
           rel="noopener noreferrer" 
           class="link link-hover text-lg tooltip"
           data-tip={`Slot ${block.abs_slot}`}
-
         >
           🧊
         </a>
