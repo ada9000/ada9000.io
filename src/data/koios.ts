@@ -10,6 +10,9 @@ import type {
   Tip,
 } from "../types/koios";
 
+import { Buffer } from "buffer";
+globalThis.Buffer = Buffer;
+
 const ApiUrl = "https://api.koios.rest/api/v0";
 const PoolBech32 = "pool1fu6ppur5uumrpydpeswzrvfg4epr68xw39aar9rcu56tk5ukat3";
 
@@ -134,7 +137,8 @@ export async function getDelegatorAssets(
     if (account.asset_list.length > 0) {
       account.asset_list.forEach((a) => {
         if (a.policy_id === handlePolicy) {
-          handles.push(a.asset_name);
+          const utf8Name = Buffer.from(a.asset_name, "hex").toString("utf8");
+          handles.push(utf8Name);
         }
         if (a.policy_id === hoskyPolicy) {
           updatedDelegators[idx.toString()].hosky = a.quantity;
