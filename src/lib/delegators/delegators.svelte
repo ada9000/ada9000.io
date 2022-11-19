@@ -6,15 +6,17 @@
   import Adahandle from "../../assets/icons/adahandle.svelte";
   let hoskyLogo = 'images/hosky.png'
   let loading = true
+  let loadingAssets = true
   let delegators: DelegatorInfo[] = [];
   let unfilteredDelegators: DelegatorInfo[] = []; // for hosky...
 
   (async () => {
     delegators = await getDelegators()
       .then((d)=>{return d.sort((a, b) => b.lace - a.lace)});
-    let loading = false;
+    loading = false;
     delegators = await getDelegatorAssets(delegators)
       .then((d)=>{return d.sort((a, b) => b.lace - a.lace)});
+    loadingAssets = false
   })();
 
   let showHosky = false;
@@ -39,7 +41,7 @@
   {:else}
     <!-- Hosky toggle -->
     <div class="w-12 my-auto mx-auto mt-4 my-4">
-      <button on:click={handleHosky}>
+      <button on:click={handleHosky} disabled={loadingAssets}>
         {#if showHosky}
         <img src={hoskyLogo} alt="Hosky token logo. A pixel art of a Husky dog" class="hoskyOn"/>
         {:else}
@@ -47,6 +49,12 @@
         {/if}
       </button>
     </div>
+
+    {#if loadingAssets}
+    <!-- Change this to show subtle glow once loaded? -->
+    <p class="text text-sm text-center">Please wait assets (+Hosky) loading...</p>
+    {/if}
+
     {#if showHosky}
     <p class="text-center text-md my-4">
       <a href="https://app.tosidrop.io/" target="_blank" rel="noopener noreferrer" class="link link-hover">Free Hosky ☂️</a>
