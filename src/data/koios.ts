@@ -95,7 +95,9 @@ export async function getDelegators(
 export async function getDelegatorAssets(
   delegators: DelegatorInfo[]
 ): Promise<DelegatorInfo[]> {
-  const updatedDelegators = JSON.parse(JSON.stringify(delegators));
+  const updatedDelegators: DelegatorInfo[] = JSON.parse(
+    JSON.stringify(delegators)
+  );
 
   const addresses: string[] = [];
   delegators.forEach((delegator) => {
@@ -118,8 +120,9 @@ export async function getDelegatorAssets(
     const idx = updatedDelegators.findIndex((d) => {
       return d.stake_address === account.stake_address;
     });
+
     // update assets
-    updatedDelegators[idx].assets = account.assets;
+    updatedDelegators[idx].assets = account.asset_list;
 
     const handlePolicy =
       "f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a";
@@ -128,17 +131,17 @@ export async function getDelegatorAssets(
 
     // handle handles ;)
     let handles: string[] = [];
-    account.assets.forEach((a) => {
-      if (a.policy_id === handlePolicy) {
-        a.assets.forEach((handle) => {
-          handles.push(handle.asset_name_ascii);
-        });
-      }
-      if (a.policy_id === hoskyPolicy) {
-        updatedDelegators[idx].hosky = a.assets[0].balance;
-      }
-    });
-    updatedDelegators[idx].handles = handles;
+    if (account.asset_list.length > 0) {
+      account.asset_list.forEach((a) => {
+        if (a.policy_id === handlePolicy) {
+          handles.push(a.asset_name);
+        }
+        if (a.policy_id === hoskyPolicy) {
+          updatedDelegators[idx.toString()].hosky = a.quantity;
+        }
+      });
+    }
+    updatedDelegators[idx.toString()].handles = handles;
   });
   return updatedDelegators;
 }
