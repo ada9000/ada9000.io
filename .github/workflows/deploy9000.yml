@@ -1,5 +1,9 @@
 name: Deploy site on code push
-on: [push]
+on:
+  push:
+    branches:
+      - master
+      - main
 jobs:
   DeploySite:
     runs-on: self-hosted
