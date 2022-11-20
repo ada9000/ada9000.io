@@ -4,6 +4,7 @@
   import cf from "../../../public/cf.json";
   import type { DelegatorInfo } from "src/types/types";
   import Adahandle from "../../assets/icons/adahandle.svelte";
+  import { navigate } from "svelte-navigator";
   let hoskyLogo = 'images/hosky.png'
   let loading = true
   let loadingAssets = true
@@ -64,7 +65,11 @@
   <div class="grid gap-x-4 gap-y-2 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
     {#each delegators as delegator}
       {#if delegator.lace > 0}
-        <div class="card mx-auto p-2 mt-4 shadow-lg max-w-sm bg-base-300 w-full">
+        <button class="card mx-auto p-2 mt-4 shadow-lg max-w-sm bg-base-300 w-full items-center" 
+          on:click={() => {
+            navigate(delegator.stake_address);
+          }}
+        >
           <!-- Show if foundation or pool wallet -->
           {#if cf.includes(delegator.stake_address)}
             <p class="text text-center font-bold">
@@ -105,7 +110,7 @@
           </div>
           {/if}
 
-        </div>
+        </button>
       {/if}
     {/each}
   </div>

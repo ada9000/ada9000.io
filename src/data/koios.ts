@@ -1,9 +1,6 @@
-import type Delegators from "src/lib/delegators/delegators.svelte";
 import type { DelegatorInfo } from "src/types/types";
-import { writable } from "svelte/store";
 import type {
   AccountAsset,
-  Delegator,
   EpochInfo,
   PoolBlocks,
   PoolInfo,
@@ -95,6 +92,22 @@ export async function getDelegators(
   return delegators;
 }
 
+export async function getAccountAssets(
+  addresses: string[]
+): Promise<AccountAsset[]> {
+  return await fetch(`${ApiUrl}/account_assets`, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      _stake_addresses: [addresses],
+    }),
+  }).then((res) => {
+    return res.json();
+  });
+}
+
 export async function getDelegatorAssets(
   delegators: DelegatorInfo[]
 ): Promise<DelegatorInfo[]> {
@@ -107,17 +120,7 @@ export async function getDelegatorAssets(
     addresses.push(delegator.stake_address);
   });
 
-  const res: AccountAsset[] = await fetch(`${ApiUrl}/account_assets`, {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      _stake_addresses: [addresses],
-    }),
-  }).then((res) => {
-    return res.json();
-  });
+  const res = await getAccountAssets(addresses);
 
   res.forEach((account) => {
     const idx = updatedDelegators.findIndex((d) => {
