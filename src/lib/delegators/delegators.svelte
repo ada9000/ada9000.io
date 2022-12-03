@@ -32,6 +32,17 @@
     }
   }
 
+  function laceWithoutCF()
+  {
+    const delegatorsWithoutCf = delegators.filter((x)=>{return !cf.includes(x.stake_address)});
+    let res = 0;
+    delegatorsWithoutCf.forEach(x => {
+      //@ts-ignore
+      res += parseInt(x.lace)
+    });
+    return laceToAdaString(res.toString());
+  }
+
 </script>
 
 
@@ -40,32 +51,53 @@
     <p class="text text-xl text-center p-2">Loading delegators...</p>
     <progress class="progress mx-auto"/>
   {:else}
-    <!-- Hosky toggle -->
-    <div class="w-12 my-auto mx-auto mt-4 my-4">
-      <button on:click={handleHosky} disabled={loadingAssets}>
-        {#if showHosky}
-        <img src={hoskyLogo} alt="Hosky token logo. A pixel art of a Husky dog" class="hoskyOn"/>
-        {:else}
-        <img src={hoskyLogo} alt="Hosky token logo. A pixel art of a Husky dog" class="hoskyOff"/>
-        {/if}
-      </button>
+
+    <!-- Show stake minus CF whale amount -->
+    <div class="card py-4 shadow-lg max-w-sm mx-auto bg-base-300" >
+      <p class="text text-md font-bold text-center text-primary">
+        {laceWithoutCF()}
+      </p>
+      <p class="text text-center">
+        active stake
+      </p>
+      <p class="text text-center text-xs">
+        without Cardano Foundation whale included
+      </p>
     </div>
 
-    {#if loadingAssets}
-    <!-- Change this to show subtle glow once loaded? -->
-    <p class="text text-sm text-center">Please wait assets (+Hosky) loading...</p>
-    {/if}
 
-    {#if showHosky}
     <p class="text-center text-md my-4">
-      <a href="https://app.tosidrop.io/" target="_blank" rel="noopener noreferrer" class="link link-hover">Free Hosky ☂️</a>
+      <a href="https://app.tosidrop.io/" target="_blank" rel="noopener noreferrer" class="link link-hover">Free tokens ☂️</a>
     </p>
-    {/if}
+
+    <!-- Options -->
+    <div class="card py-4 shadow-lg max-w-sm mx-auto bg-base-300 mt-4" >
+      <p class="text text-center">Filtering Options</p>
+      
+      <!-- Hosky toggle -->
+      {#if loadingAssets}
+      <div class="my-auto mx-auto mt-4 my-4 h-10">
+        <progress class="progress mx-auto"/>
+        <p class="text text-sm text-center">Loading assets</p>
+      </div>
+      {:else}
+      <div class="w-12 my-auto mx-auto mt-4 my-4 h-10">
+        <button on:click={handleHosky} disabled={loadingAssets}>
+          {#if showHosky}
+          <img src={hoskyLogo} alt="Hosky token logo. A pixel art of a Husky dog" class="hoskyOn banana"/>
+          {:else}
+          <img src={hoskyLogo} alt="Hosky token logo. A pixel art of a Husky dog" class="hoskyOff"/>
+          {/if}
+        </button>
+      </div>
+      {/if}
+    </div>
   {/if}
+
   <div class="grid gap-x-4 gap-y-2 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1">
     {#each delegators as delegator}
       {#if delegator.lace > 0}
-        <button class="card mx-auto p-2 mt-4 shadow-lg max-w-sm bg-base-300 w-full items-center" 
+        <button class="card mx-auto p-2 mt-4 shadow-lg max-w-sm bg-base-300 w-full items-center hover:bg-secondary group" 
           on:click={() => {
             navigate(delegator.stake_address);
           }}
@@ -83,11 +115,11 @@
           
           <!-- Show handle or shortened stake address -->
           {#if delegator.handles && delegator.handles.length}
-          <p class="text text-center text-lg font-bold">
-            <span class="inline-block h-4"><Adahandle class="align"/></span> {delegator.handles[0]}
+          <p class="text text-center text-lg font-bold group-hover:text-xl">
+            <span class="inline-block h-4"><Adahandle/></span> {delegator.handles[0]}
           </p>
           {:else}
-            <p class="text text-center text-lg font-bold text-primary">
+            <p class="text text-center text-lg font-bold text-primary group-hover:text-xl">
               {shortenStakeAddr(delegator.stake_address)}
             </p>
           {/if}
@@ -119,7 +151,7 @@
 <style>
 
   .hoskyOn {
-      filter: drop-shadow(0px 0px 15px lightblue)
+      filter: drop-shadow(0px 0px 12px lightblue)
   }
 
   .hoskyOff{
