@@ -1,3 +1,4 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{svelte,js,ts}"],
   daisyui: {
@@ -20,3 +21,4 @@ module.exports = {
   },
   plugins: [require("daisyui")],
 };
+
