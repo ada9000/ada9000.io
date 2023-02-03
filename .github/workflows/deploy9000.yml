@@ -8,7 +8,7 @@ jobs:
   DeploySite:
     runs-on: self-hosted
     steps:
-      - name: checkout code
+      - name: 🧙‍♂️ apply changes
         uses: actions/checkout@v3
       - name: 🧙‍♂️ install
         run: yarn install
