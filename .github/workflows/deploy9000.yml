@@ -18,4 +18,4 @@ jobs:
       - name: Update /var/www/a9000.io
         run: |
           rm -rf /var/www/a9000.io/*
-          cp -r dist/* /var/www/a9000.io
+          cp -r build/* /var/www/a9000.io
