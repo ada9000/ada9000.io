@@ -8,14 +8,13 @@ jobs:
   DeploySite:
     runs-on: self-hosted
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - name: checkout code
         uses: actions/checkout@v3
-      - name: install
+      - name: 🧙‍♂️ install
         run: yarn install
-      - name: build
+      - name: 🧙‍♂️ build
         run: yarn build
-      - name: Update /var/www/a9000.io
+      - name: 🧙‍♂️ deploy
         run: |
           rm -rf /var/www/a9000.io/*
           cp -r build/* /var/www/a9000.io
